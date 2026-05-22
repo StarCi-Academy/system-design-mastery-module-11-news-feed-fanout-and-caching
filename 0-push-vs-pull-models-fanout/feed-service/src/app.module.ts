@@ -1,6 +1,6 @@
 /**
- * Module gốc — Postgres biz demo + seed OnModuleInit.
- * (EN: Root module — Postgres demo data + OnModuleInit seed.)
+ * Module gốc — Postgres biz demo + seed từ .sql/seed.sql.
+ * (EN: Root module — Postgres demo data + seed from .sql/seed.sql.)
  */
 import {
     Module,
@@ -40,7 +40,7 @@ import {
                     password: db.password,
                     database: db.database,
                     autoLoadEntities: true,
-                    synchronize: true,
+                    synchronize: false,
                 }
             },
         }),

@@ -8,9 +8,6 @@ import {
     FeedcacheController,
 } from "./feedcache.controller"
 import {
-    FeedcacheSeedService,
-} from "./feedcache-seed.service"
-import {
     FeedcacheService,
 } from "./feedcache.service"
 import {
@@ -18,13 +15,13 @@ import {
 } from "../entities"
 
 /**
- * Feature module — Postgres source + Redis ZSET feed cache.
- * (EN: Feature module — Postgres source + Redis ZSET feed cache.)
+ * Feature module — Postgres source + Redis ZSET feed cache (seed từ .sql/seed.sql).
+ * (EN: Feature module — Postgres source + Redis ZSET feed cache (seed from .sql/seed.sql).)
  */
 @Module({
     imports: [TypeOrmModule.forFeature([CachedPostEntity])],
     controllers: [FeedcacheController],
-    providers: [FeedcacheService, FeedcacheSeedService],
+    providers: [FeedcacheService],
     exports: [FeedcacheService],
 })
 export class FeedcacheModule {}

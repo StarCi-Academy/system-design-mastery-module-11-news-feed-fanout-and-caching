@@ -28,13 +28,11 @@ services:
   # (EN: NestJS HTTP API.)
   api:
     container_name: 1-feed-caching-with-redis-api
-    image: starciacademy/feed-caching-with-redis-feed-cache-service:latest
+    image: starciacademy/system-design-feed-caching-with-redis-feed-cache-service:latest
     ports:
-      # Ánh xạ cổng host 3000 -> container 3000 (HTTP API).
-      # (EN: Map host port 3000 -> container 3000 (HTTP API).)
       # Cổng HTTP API host → container.
       # (EN: HTTP API host → container port.)
-      - "3000:3000"
+      - "3014:3000"
     environment:
       - PORT=3000
       - POSTGRES_HOST=db
@@ -62,8 +60,10 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=feed_cache_service
-    ports:
-      - "5432:5432"
+    volumes:
+      # Mount seed SQL để khởi tạo dữ liệu demo khi DB lần đầu chạy.
+      # (EN: Mount seed SQL to initialise demo data on first DB start.)
+      - ../.sql/seed.sql:/docker-entrypoint-initdb.d/seed.sql:ro
     networks:
       - 1-feed-caching-with-redis-network
 
@@ -75,8 +75,6 @@ services:
   redis:
     image: redis:7-alpine
     container_name: 1-feed-caching-with-redis-redis
-    ports:
-      - "6379:6379"
     networks:
       - 1-feed-caching-with-redis-network
 

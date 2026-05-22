@@ -1,10 +1,10 @@
 # System Design Mastery — Module 11: News Feed Fanout & Caching
 
 ## Tổng quan (VI)
-Fanout push/pull, Redis ZSET timeline, hybrid fanout + key salting. **Biz demo** lưu **PostgreSQL**, seed `OnModuleInit` khi DB trống (§6.4 `coding-rules.md`).
+Fanout push/pull, Redis ZSET timeline, hybrid fanout + key salting. **Biz demo** lưu **PostgreSQL**, seed từ `.sql/seed.sql` qua `docker-entrypoint-initdb.d` (§6.4 `coding-rules.md`).
 
 ## Overview (EN)
-News feed fanout patterns, Redis caching, hybrid + hotkey mitigation. **Demo business data** in **PostgreSQL**, seeded on `OnModuleInit` when empty.
+News feed fanout patterns, Redis caching, hybrid + hotkey mitigation. **Demo business data** in **PostgreSQL**, seeded via `.sql/seed.sql` mounted into `docker-entrypoint-initdb.d`.
 
 ## Lessons
 - `0-push-vs-pull-models-fanout` — `feed-service` (Postgres: follows, posts, pushed timeline)

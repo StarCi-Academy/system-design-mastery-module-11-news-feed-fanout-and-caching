@@ -8,9 +8,6 @@ import {
     HybridfeedController,
 } from "./hybridfeed.controller"
 import {
-    HybridfeedSeedService,
-} from "./hybridfeed-seed.service"
-import {
     HybridfeedService,
 } from "./hybridfeed.service"
 import {
@@ -19,13 +16,13 @@ import {
 } from "../entities"
 
 /**
- * Feature module — hybrid fanout + Postgres + Redis key salting.
- * (EN: Feature module — hybrid fanout + Postgres + Redis key salting.)
+ * Feature module — hybrid fanout + Postgres + Redis key salting (seed từ .sql/seed.sql).
+ * (EN: Feature module — hybrid fanout + Postgres + Redis key salting (seed from .sql/seed.sql).)
  */
 @Module({
     imports: [TypeOrmModule.forFeature([AuthorEntity, HybridPostEntity])],
     controllers: [HybridfeedController],
-    providers: [HybridfeedService, HybridfeedSeedService],
+    providers: [HybridfeedService],
     exports: [HybridfeedService],
 })
 export class HybridfeedModule {}

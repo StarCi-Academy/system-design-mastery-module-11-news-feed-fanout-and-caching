@@ -8,9 +8,6 @@ import {
     FeedController,
 } from "./feed.controller"
 import {
-    FeedSeedService,
-} from "./feed-seed.service"
-import {
     FeedService,
 } from "./feed.service"
 import {
@@ -20,15 +17,15 @@ import {
 } from "../entities"
 
 /**
- * Feature module — fanout push vs pull (Postgres + seed OnModuleInit).
- * (EN: Feature module — fanout push vs pull (Postgres + OnModuleInit seed).)
+ * Feature module — fanout push vs pull (Postgres + seed từ .sql/seed.sql).
+ * (EN: Feature module — fanout push vs pull (Postgres + seed from .sql/seed.sql).)
  */
 @Module({
     imports: [
         TypeOrmModule.forFeature([FollowEntity, PostEntity, PushedTimelineEntity]),
     ],
     controllers: [FeedController],
-    providers: [FeedService, FeedSeedService],
+    providers: [FeedService],
     exports: [FeedService],
 })
 export class FeedModule {}
