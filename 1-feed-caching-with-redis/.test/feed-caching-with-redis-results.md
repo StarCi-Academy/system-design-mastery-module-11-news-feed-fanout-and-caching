@@ -25,6 +25,14 @@
 ```
 ✅ ZREVRANGE trả về newest-first; score = epoch ms để sort ổn định.
 
+## Edge — Read empty cache (chưa seed)
+
+`GET /api/feed/cache?userId=usr_neverseen` → `timeline: []` ✅ — không lỗi, đúng semantic "miss".
+
+## Edge — Re-seed idempotency
+
+Gọi `POST /api/feed/cache/seed?userId=usr_idem` **2 lần liên tiếp** → `ZCARD feed:usr_idem = 3` (không phải 6). ZADD ghi đè member trùng → idempotent ✅.
+
 ## Edge case — ZREMRANGEBYRANK trim 500
 
 Inject 600 posts vào Postgres:

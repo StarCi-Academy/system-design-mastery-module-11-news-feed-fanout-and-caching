@@ -52,6 +52,15 @@ Redis `KEYS feed:kol:*` → 4 keys (`salt:0..3`) ✅ — traffic 5 user phân t�
 
 `GET /hybrid/route?authorId=ghost_author` → `isCelebrity:false, route:"push-to-followers"` ✅ — fallback an toàn (treat unknown như non-celebrity).
 
+### TTL expire → tự rebuild cache
+
+```
+GET /hybrid?userId=usr_ttl → saltedKey=feed:kol:kol_1:salt:0  TTL=60
+EXPIRE 1 → sleep 2 → EXISTS=0     (cache đã expire)
+GET /hybrid?userId=usr_ttl → EXISTS=1  (rebuild thành công)
+```
+✅ Cache TTL 60s hoạt động đúng; sau expire, request tiếp theo tự rebuild → không phụ thuộc cron job.
+
 ## Verdict
 
 ✅ **L2 PASS** — hybrid routing đúng theo trạng thái celebrity; key salting verify được phân tán qua 4 buckets; fallback cho author không tồn tại an toàn.
