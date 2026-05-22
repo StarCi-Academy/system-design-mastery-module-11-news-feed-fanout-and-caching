@@ -35,6 +35,23 @@
 ```
 ✅ KOL → pull at read time (1 write thay vì million writes).
 
+## Edge cases
+
+### Salted key variance qua 5 userId
+
+```
+usr_a → feed:kol:kol_1:salt:1
+usr_b → feed:kol:kol_1:salt:2
+usr_c → feed:kol:kol_1:salt:3
+usr_d → feed:kol:kol_1:salt:0
+usr_e → feed:kol:kol_1:salt:1
+```
+Redis `KEYS feed:kol:*` → 4 keys (`salt:0..3`) ✅ — traffic 5 user phân tán qua 4 Redis key thay vì 1 → chống hotkey.
+
+### Route author không tồn tại (ghost)
+
+`GET /hybrid/route?authorId=ghost_author` → `isCelebrity:false, route:"push-to-followers"` ✅ — fallback an toàn (treat unknown như non-celebrity).
+
 ## Verdict
 
-✅ **L2 PASS** — hybrid routing đúng theo trạng thái celebrity; key salting chống hotkey rõ ràng.
+✅ **L2 PASS** — hybrid routing đúng theo trạng thái celebrity; key salting verify được phân tán qua 4 buckets; fallback cho author không tồn tại an toàn.

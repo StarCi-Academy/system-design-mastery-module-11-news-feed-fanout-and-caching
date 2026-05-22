@@ -36,6 +36,12 @@ POST {"authorId":"author_1","content":"Test post"}
 ```
 ✅ Tạo post + ghi 2 dòng `pushed_timeline` cho 2 follower của author_1.
 
+## Edge cases
+
+- **Cold user (no follows)** — `GET /pull?userId=usr_999` → `followedAuthors:[], timeline:[]` ✅
+- **Cold user push feed** — `GET /push?userId=usr_999` → `materializedPostIds:[], timeline:[]` ✅
+- **Author không có follower** — `POST /post {"authorId":"nobody_following"}` → `followerIds:[], fanoutWrites:0` ✅ (post vẫn được lưu, chỉ không fanout)
+
 ## Verdict
 
-✅ **L0 PASS** — pull/push trade-off thể hiện rõ qua 3 endpoint.
+✅ **L0 PASS** — pull/push trade-off thể hiện rõ qua 3 endpoint + 3 edge case xử lý đúng.

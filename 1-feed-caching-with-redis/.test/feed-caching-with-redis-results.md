@@ -25,6 +25,20 @@
 ```
 ✅ ZREVRANGE trả về newest-first; score = epoch ms để sort ổn định.
 
+## Edge case — ZREMRANGEBYRANK trim 500
+
+Inject 600 posts vào Postgres:
+```sql
+INSERT INTO posts SELECT 'post_'||g, 'author_1', 'bulk '||g, 1748000000000+g FROM generate_series(1, 600) g;
+```
+Gọi `POST /api/feed/cache/seed?userId=usr_edge`:
+```json
+{"userId":"usr_edge","cacheKey":"feed:usr_edge","source":"postgres","cachedPosts":600,"maxCachedItems":500}
+```
+Redis `ZCARD feed:usr_edge` → **500** ✅
+
+Demo: dù DB có 600 posts, ZREMRANGEBYRANK 0..-501 đã trim chính xác về 500 mới nhất → chống unbounded growth.
+
 ## Verdict
 
-✅ **L1 PASS** — Redis ZSET timeline cache hoạt động đúng, demo trade-off cache vs DB read.
+✅ **L1 PASS** — Redis ZSET timeline cache hoạt động đúng, demo trade-off cache vs DB read + cap 500 đã verify với 600-post stress.
