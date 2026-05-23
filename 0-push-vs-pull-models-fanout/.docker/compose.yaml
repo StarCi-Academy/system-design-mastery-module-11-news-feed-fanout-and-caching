@@ -32,7 +32,7 @@ services:
     ports:
       # Cổng HTTP API host → container.
       # (EN: HTTP API host → container port.)
-      - "3013:3000"
+      - "3000:3000"
     environment:
       - PORT=3000
       - POSTGRES_HOST=db
